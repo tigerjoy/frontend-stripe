@@ -21,7 +21,7 @@ function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/20 dark:bg-emerald-600/20 blur-[120px]" />
 
       <div className="relative z-10 w-full max-w-5xl text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400">
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-2 pb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400">
           Stripe Integration Demo
         </h1>
         <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
