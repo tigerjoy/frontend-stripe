@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+
+dayjs.extend(advancedFormat);
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -130,7 +134,7 @@ export default function DashboardApp() {
               {billing.renewsAt && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800">
                   <p className="text-sm text-slate-500 mb-1">Renews At</p>
-                  <p className="font-semibold text-slate-900 dark:text-white truncate">{new Date(billing.renewsAt).toLocaleDateString()}</p>
+                  <p className="font-semibold text-slate-900 dark:text-white truncate">{dayjs(billing.renewsAt).format('Do MMMM YYYY')}</p>
                 </div>
               )}
             </div>

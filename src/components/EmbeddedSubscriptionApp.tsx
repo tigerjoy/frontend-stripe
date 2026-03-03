@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -22,6 +22,15 @@ function SubscriptionCheckoutForm({ planName, planPrice, planPeriod, onCancel }:
   const [message, setMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "processing" | "succeeded" | "failed">("idle");
+
+  useEffect(() => {
+    if (paymentStatus === "succeeded") {
+      const timer = setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [paymentStatus]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,9 +79,11 @@ function SubscriptionCheckoutForm({ planName, planPrice, planPeriod, onCancel }:
         <h3 className="text-3xl font-bold tracking-tight mb-3">Subscription Active!</h3>
         <p className="text-slate-500 max-w-sm mb-8">
           You are now subscribed to the <span className="font-bold text-slate-900 dark:text-white">{planName}</span> for {planPrice}{planPeriod}.
+          <br /><br />
+          Redirecting to dashboard in 5 seconds...
         </p>
-        <Button onClick={() => window.location.reload()} variant="outline" className="w-full">
-          Back to Plans
+        <Button onClick={() => window.location.href = '/dashboard'} variant="outline" className="w-full">
+          Go to Dashboard Now
         </Button>
       </div>
     );
@@ -136,6 +147,15 @@ export default function EmbeddedSubscriptionApp() {
   const [isInitializing, setIsInitializing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isImmediatelyActive, setIsImmediatelyActive] = useState(false);
+
+  useEffect(() => {
+    if (isImmediatelyActive) {
+      const timer = setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isImmediatelyActive]);
 
   const userId = localStorage.getItem('userId');
 
@@ -291,9 +311,11 @@ export default function EmbeddedSubscriptionApp() {
                     <h3 className="text-3xl font-bold tracking-tight mb-3">Subscription Active!</h3>
                     <p className="text-slate-500 max-w-sm mb-8">
                       You are now subscribed to the <span className="font-bold text-slate-900 dark:text-white">{selectedPlan.name}</span>! No payment was required.
+                      <br /><br />
+                      Redirecting to dashboard in 5 seconds...
                     </p>
-                    <Button onClick={() => window.location.reload()} variant="outline" className="w-full">
-                      Back to Plans
+                    <Button onClick={() => window.location.href = '/dashboard'} variant="outline" className="w-full">
+                      Go to Dashboard Now
                     </Button>
                   </div>
                 ) : clientSecret ? (
