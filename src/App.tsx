@@ -6,6 +6,7 @@ import CancelPage from "./components/CancelPage";
 import RegisterApp from "./components/RegisterApp";
 import PricingApp from "./components/PricingApp";
 import DashboardApp from "./components/DashboardApp";
+import EmbeddedSubscriptionApp from "./components/EmbeddedSubscriptionApp";
 import './App.css';
 
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -27,7 +28,7 @@ function Home() {
         </p>
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl px-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl px-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
         {/* App 1 Card */}
         <Link to="/app1" className="block group">
           <Card className="h-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80">
@@ -53,6 +54,21 @@ function Home() {
               <CardTitle className="text-2xl mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">App 2</CardTitle>
               <CardDescription className="text-base text-balance">
                 In-App Custom Form using Stripe Elements. Seamless checkout.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        {/* App 3 Card */}
+        <Link to="/register?next=/app3" className="block group">
+          <Card className="h-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80">
+            <CardHeader className="text-center pt-8">
+              <div className="w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mx-auto mb-6 transition-transform group-hover:scale-110 group-hover:-rotate-3">
+                <CreditCard className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <CardTitle className="text-2xl mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">App 3</CardTitle>
+              <CardDescription className="text-base text-balance">
+                Plan Purchase with Embedded Payment Element.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -88,6 +104,7 @@ function App() {
         <Route path="/app1/success" element={<SuccessPage />} />
         <Route path="/app1/cancel" element={<CancelPage />} />
         <Route path="/app2" element={<ElementsApp />} />
+        <Route path="/app3" element={<EmbeddedSubscriptionApp />} />
         <Route path="/register" element={<RegisterApp />} />
         <Route path="/pricing" element={<PricingApp />} />
         <Route path="/dashboard" element={<DashboardApp />} />

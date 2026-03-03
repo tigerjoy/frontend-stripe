@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ export default function RegisterApp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +35,9 @@ export default function RegisterApp() {
       // Mock login: save user ID to local storage
       localStorage.setItem('userId', data.id);
 
-      // Redirect to pricing
-      navigate('/pricing');
+      // Redirect to next or pricing
+      const next = searchParams.get('next') || '/pricing';
+      navigate(next);
     } catch (err: any) {
       setError(err.message);
     } finally {
