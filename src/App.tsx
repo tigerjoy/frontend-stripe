@@ -7,10 +7,11 @@ import RegisterApp from "./components/RegisterApp";
 import PricingApp from "./components/PricingApp";
 import DashboardApp from "./components/DashboardApp";
 import EmbeddedSubscriptionApp from "./components/EmbeddedSubscriptionApp";
+import TrialSubscriptionApp from "./components/TrialSubscriptionApp";
 import './App.css';
 
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { CreditCard, Wallet, LayoutDashboard } from "lucide-react";
+import { CreditCard, Wallet, LayoutDashboard, Gift } from "lucide-react";
 
 function Home() {
   return (
@@ -28,7 +29,7 @@ function Home() {
         </p>
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-7xl px-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full max-w-7xl px-4 animate-in fade-in slide-in-from-bottom-8 duration-1000">
         {/* App 1 Card */}
         <Link to="/app1" className="block group">
           <Card className="h-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80">
@@ -74,6 +75,21 @@ function Home() {
           </Card>
         </Link>
 
+        {/* App 4 Card */}
+        <Link to="/register?next=/app4" className="block group">
+          <Card className="h-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-slate-200/50 dark:border-slate-800/50 shadow-xl shadow-slate-200/40 dark:shadow-black/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80">
+            <CardHeader className="text-center pt-8">
+              <div className="w-16 h-16 rounded-2xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center mx-auto mb-6 transition-transform group-hover:scale-110 group-hover:rotate-3">
+                <Gift className="w-8 h-8 text-violet-600 dark:text-violet-400" />
+              </div>
+              <CardTitle className="text-2xl mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">App 4</CardTitle>
+              <CardDescription className="text-base text-balance">
+                Plans with 30-Day Free Trial. Card saved, charged after trial.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
         {/* Register/Dashboard Card */}
         <Link to="/register" className="block group">
           <Card className="h-full relative overflow-hidden bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-emerald-200/50 dark:border-emerald-800/50 shadow-xl shadow-emerald-200/40 dark:shadow-emerald-900/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-emerald-50 dark:hover:bg-emerald-950/40">
@@ -105,6 +121,7 @@ function App() {
         <Route path="/app1/cancel" element={<CancelPage />} />
         <Route path="/app2" element={<ElementsApp />} />
         <Route path="/app3" element={<EmbeddedSubscriptionApp />} />
+        <Route path="/app4" element={<TrialSubscriptionApp />} />
         <Route path="/register" element={<RegisterApp />} />
         <Route path="/pricing" element={<PricingApp />} />
         <Route path="/dashboard" element={<DashboardApp />} />

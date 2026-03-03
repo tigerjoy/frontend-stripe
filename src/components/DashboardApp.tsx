@@ -6,12 +6,13 @@ dayjs.extend(advancedFormat);
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, LayoutDashboard, Settings, LogOut, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Loader2, LayoutDashboard, Settings, LogOut, ArrowRight, AlertCircle, CheckCircle2, CalendarClock, Gift } from "lucide-react";
 
 type BillingStatus = {
-  status: 'active' | 'past_due' | 'canceled' | 'none';
+  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'none';
   plan: string | null;
   renewsAt: string | null;
+  trialEnd: string | null;
   isActive: boolean;
 };
 
@@ -113,11 +114,13 @@ export default function DashboardApp() {
             <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800">
               <span className="font-medium text-slate-700 dark:text-slate-300">Current Status</span>
               <Badge variant="outline" className={`px-3 py-1 bg-white dark:bg-slate-950 font-medium ${billing.status === 'active' ? 'text-emerald-600 border-emerald-200 dark:border-emerald-800' :
-                billing.status === 'past_due' ? 'text-amber-600 border-amber-200 dark:border-amber-800' :
-                  billing.status === 'canceled' ? 'text-slate-500 border-slate-200 dark:border-slate-800' :
-                    'text-slate-500 border-slate-200 dark:border-slate-800'
+                  billing.status === 'trialing' ? 'text-amber-600 border-amber-200 dark:border-amber-800' :
+                    billing.status === 'past_due' ? 'text-amber-600 border-amber-200 dark:border-amber-800' :
+                      billing.status === 'canceled' ? 'text-slate-500 border-slate-200 dark:border-slate-800' :
+                        'text-slate-500 border-slate-200 dark:border-slate-800'
                 }`}>
                 {billing.status === 'active' && <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5" /> Active</span>}
+                {billing.status === 'trialing' && <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5" /> Trial Active</span>}
                 {billing.status === 'past_due' && <span className="flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Past Due</span>}
                 {billing.status === 'canceled' && <span>Canceled</span>}
                 {billing.status === 'none' && <span>No subscription</span>}
@@ -131,6 +134,18 @@ export default function DashboardApp() {
                   <p className="font-semibold text-slate-900 dark:text-white truncate">{billing.plan}</p>
                 </div>
               )}
+              {/* Trial end / card charge date — shown when trialing */}
+              {billing.trialEnd && billing.status === 'trialing' && (
+                <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800/50">
+                  <p className="text-sm text-amber-600 dark:text-amber-400 mb-1 flex items-center gap-1.5">
+                    <CalendarClock className="w-3.5 h-3.5" /> Card Charged On
+                  </p>
+                  <p className="font-semibold text-amber-700 dark:text-amber-300 truncate">
+                    {dayjs(billing.trialEnd).format('Do MMMM YYYY')}
+                  </p>
+                </div>
+              )}
+              {/* Renewal date — shown when active or trialing */}
               {billing.renewsAt && (
                 <div className="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800">
                   <p className="text-sm text-slate-500 mb-1">Renews At</p>
