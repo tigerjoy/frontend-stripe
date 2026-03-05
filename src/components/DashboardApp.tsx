@@ -9,18 +9,46 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Loader2, LayoutDashboard, Settings, LogOut, ArrowRight, AlertCircle,
-  CheckCircle2, CalendarClock, Gift, FileText, Download, ExternalLink, Receipt
+  CheckCircle2, CalendarClock, Gift, FileText, Download, ExternalLink, Receipt,
+  Clock, XCircle, PauseCircle
 } from "lucide-react";
+import PaymentModal from "./PaymentModal";
 
 const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 type BillingStatus = {
-  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'none';
+  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'unpaid' | 'incomplete' | 'incomplete_expired' | 'paused' | 'none';
   plan: string | null;
   renewsAt: string | null;
   trialEnd: string | null;
   isActive: boolean;
 };
+
+function SubscriptionStatusBadge({ status }: { status: BillingStatus['status'] }) {
+  const config = {
+    active: { color: 'text-emerald-600 border-emerald-200 dark:border-emerald-800', icon: CheckCircle2, label: 'Active' },
+    trialing: { color: 'text-amber-600 border-amber-200 dark:border-amber-800', icon: Gift, label: 'Trial Active' },
+    past_due: { color: 'text-amber-600 border-amber-200 dark:border-amber-800', icon: AlertCircle, label: 'Past Due' },
+    unpaid: { color: 'text-red-600 border-red-200 dark:border-red-800', icon: AlertCircle, label: 'Unpaid' },
+    incomplete: { color: 'text-blue-600 border-blue-200 dark:border-blue-800', icon: Clock, label: 'Incomplete' },
+    incomplete_expired: { color: 'text-slate-500 border-slate-200 dark:border-slate-800', icon: XCircle, label: 'Incomplete (Expired)' },
+    paused: { color: 'text-amber-600 border-amber-200 dark:border-amber-800', icon: PauseCircle, label: 'Paused' },
+    canceled: { color: 'text-slate-500 border-slate-200 dark:border-slate-800', icon: null, label: 'Canceled' },
+    none: { color: 'text-slate-500 border-slate-200 dark:border-slate-800', icon: null, label: 'No subscription' },
+  };
+
+  const current = config[status] || config.none;
+  const Icon = current.icon;
+
+  return (
+    <Badge variant="outline" className={`px-3 py-1 bg-white dark:bg-slate-950 font-medium ${current.color}`}>
+      <span className="flex items-center">
+        {Icon && <Icon className="w-3.5 h-3.5 mr-1.5" />}
+        {current.label}
+      </span>
+    </Badge>
+  );
+}
 
 type Invoice = {
   id: string;
@@ -132,7 +160,9 @@ export default function DashboardApp() {
   if (!billing) return null;
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center p-4 py-12 bg-slate-50 dark:bg-slate-950 overflow-hidden">
+    <>
+      <PaymentModal />
+      <div className="min-h-screen relative flex flex-col items-center justify-center p-4 py-12 bg-slate-50 dark:bg-slate-950 overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 dark:bg-emerald-600/10 blur-[120px]" />
       <div className="absolute top-[40%] right-[-10%] w-[30%] h-[40%] rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-[120px]" />
@@ -163,18 +193,7 @@ export default function DashboardApp() {
 
             <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800">
               <span className="font-medium text-slate-700 dark:text-slate-300">Current Status</span>
-              <Badge variant="outline" className={`px-3 py-1 bg-white dark:bg-slate-950 font-medium ${billing.status === 'active' ? 'text-emerald-600 border-emerald-200 dark:border-emerald-800' :
-                billing.status === 'trialing' ? 'text-amber-600 border-amber-200 dark:border-amber-800' :
-                  billing.status === 'past_due' ? 'text-amber-600 border-amber-200 dark:border-amber-800' :
-                    billing.status === 'canceled' ? 'text-slate-500 border-slate-200 dark:border-slate-800' :
-                      'text-slate-500 border-slate-200 dark:border-slate-800'
-                }`}>
-                {billing.status === 'active' && <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5" /> Active</span>}
-                {billing.status === 'trialing' && <span className="flex items-center gap-1.5"><Gift className="w-3.5 h-3.5" /> Trial Active</span>}
-                {billing.status === 'past_due' && <span className="flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Past Due</span>}
-                {billing.status === 'canceled' && <span>Canceled</span>}
-                {billing.status === 'none' && <span>No subscription</span>}
-              </Badge>
+              <SubscriptionStatusBadge status={billing.status} />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -341,5 +360,6 @@ export default function DashboardApp() {
 
       </div>
     </div>
+    </>
   );
 }

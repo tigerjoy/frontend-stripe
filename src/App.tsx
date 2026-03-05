@@ -8,6 +8,7 @@ import PricingApp from "./components/PricingApp";
 import DashboardApp from "./components/DashboardApp";
 import EmbeddedSubscriptionApp from "./components/EmbeddedSubscriptionApp";
 import TrialSubscriptionApp from "./components/TrialSubscriptionApp";
+import AdminApp from "./components/AdminApp";
 import './App.css';
 
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -106,6 +107,22 @@ function Home() {
             </CardHeader>
           </Card>
         </Link>
+        
+        {/* App 5 (Admin Portal) Card */}
+        <Link to="/admin" className="block group md:col-span-2 lg:col-span-3 xl:col-span-1">
+          <Card className="h-full bg-slate-900 border-slate-700 shadow-xl shadow-slate-900/40 transition-all duration-300 hover:scale-105 hover:bg-slate-800">
+            <CardHeader className="text-center pt-8">
+              <div className="w-16 h-16 rounded-2xl bg-rose-500/20 flex items-center justify-center mx-auto mb-6 transition-transform group-hover:scale-110">
+                <LayoutDashboard className="w-8 h-8 text-rose-400" />
+              </div>
+              <CardTitle className="text-2xl mb-2 text-rose-400 transition-colors">App 5 (Admin)</CardTitle>
+              <CardDescription className="text-base text-slate-400">
+                Assign plans to users forcing them to pay via an inline Payment Element modal.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
       </div>
     </div>
   );
@@ -125,6 +142,7 @@ function App() {
         <Route path="/register" element={<RegisterApp />} />
         <Route path="/pricing" element={<PricingApp />} />
         <Route path="/dashboard" element={<DashboardApp />} />
+        <Route path="/admin" element={<AdminApp />} />
       </Routes>
     </Router>
   );
