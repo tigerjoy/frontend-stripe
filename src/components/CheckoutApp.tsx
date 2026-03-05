@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { SETTINGS } from "@/lib/config";
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, ExternalLink } from "lucide-react";
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 export default function CheckoutApp() {
   const [loading, setLoading] = useState(false);
@@ -10,7 +13,7 @@ export default function CheckoutApp() {
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/create-checkout-session", {
+      const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

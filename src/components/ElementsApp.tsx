@@ -7,9 +7,12 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { CheckCircle2, AlertCircle, Loader2, CreditCard, ShieldCheck } from "lucide-react";
+import { SETTINGS } from "@/lib/config";
 
 // Make sure to call `loadStripe` outside of a component's render to avoid recreating the Stripe object on every render.
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "YOUR_PUBLISHABLE_STRIPE_KEY");
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 function CheckoutForm({ amount }: { amount: number }) {
   const stripe = useStripe();
@@ -197,7 +200,7 @@ export default function ElementsApp() {
   const amount = 1500; // Define amount here
 
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch(`${BACKEND_URL}/create-payment-intent`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount }), // $15.00

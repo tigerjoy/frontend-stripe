@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { SETTINGS } from "@/lib/config";
 
 dayjs.extend(advancedFormat);
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
@@ -10,6 +11,8 @@ import {
   Loader2, LayoutDashboard, Settings, LogOut, ArrowRight, AlertCircle,
   CheckCircle2, CalendarClock, Gift, FileText, Download, ExternalLink, Receipt
 } from "lucide-react";
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 type BillingStatus = {
   status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'none';
@@ -71,7 +74,7 @@ export default function DashboardApp() {
     // Fetch billing status
     const fetchBilling = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users/me/billing', {
+        const response = await fetch(`${BACKEND_URL}/api/users/me/billing`, {
           headers: { 'x-user-id': userId }
         });
         if (!response.ok) throw new Error('Failed to fetch billing status');
@@ -87,7 +90,7 @@ export default function DashboardApp() {
     // Fetch last 5 invoices from Stripe (never stored in DB)
     const fetchInvoices = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/billing/invoices', {
+        const response = await fetch(`${BACKEND_URL}/api/billing/invoices`, {
           headers: { 'x-user-id': userId }
         });
         if (!response.ok) throw new Error('Failed to fetch invoices');
@@ -106,7 +109,7 @@ export default function DashboardApp() {
 
   const handlePortal = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/billing/portal', {
+      const response = await fetch(`${BACKEND_URL}/api/billing/portal`, {
         method: 'POST',
         headers: { 'x-user-id': userId as string }
       });

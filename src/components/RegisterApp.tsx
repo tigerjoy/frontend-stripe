@@ -4,6 +4,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, UserPlus, LogIn } from "lucide-react";
+import { SETTINGS } from '@/lib/config';
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 type Mode = 'register' | 'login';
 
@@ -32,7 +35,7 @@ export default function RegisterApp() {
 
     try {
       if (mode === 'register') {
-        const response = await fetch('http://localhost:5000/api/users/register', {
+        const response = await fetch(`${BACKEND_URL}/api/users/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password }),
@@ -41,7 +44,7 @@ export default function RegisterApp() {
         if (!response.ok) throw new Error(data.error || 'Registration failed');
         localStorage.setItem('userId', data.id);
       } else {
-        const response = await fetch('http://localhost:5000/api/users/login', {
+        const response = await fetch(`${BACKEND_URL}/api/users/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),

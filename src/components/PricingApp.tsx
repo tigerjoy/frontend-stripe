@@ -4,6 +4,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Check } from "lucide-react";
+import { SETTINGS } from '@/lib/config';
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 const PLANS = [
   { name: 'Starter Plan', id: 'price_1T6nrK8xPonN1HfZWEEsH9B7', productId: 'prod_U4xmF5SiOIbaXS', price: '$10', period: '/mo', description: 'Perfect for small side projects.' },
@@ -27,7 +30,7 @@ export default function PricingApp() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/billing/checkout', {
+      const response = await fetch(`${BACKEND_URL}/api/billing/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

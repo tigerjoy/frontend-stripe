@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Check, ArrowLeft, ShieldCheck, CheckCircle2, AlertCircle } from "lucide-react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { SETTINGS } from '@/lib/config';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "YOUR_PUBLISHABLE_STRIPE_KEY");
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 const PLANS = [
   { name: 'Starter Plan', id: 'price_1T6nrK8xPonN1HfZWEEsH9B7', price: '$10', period: '/mo', description: 'Perfect for small side projects.' },
@@ -171,7 +173,7 @@ export default function EmbeddedSubscriptionApp() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/billing/subscribe-embedded", {
+      const response = await fetch(`${BACKEND_URL}/api/billing/subscribe-embedded`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

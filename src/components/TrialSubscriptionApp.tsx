@@ -8,6 +8,9 @@ import { Loader2, Sparkles, Check, ArrowLeft, ShieldCheck, CheckCircle2, AlertCi
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { SETTINGS } from '@/lib/config';
+
+const BACKEND_URL = SETTINGS.BACKEND_URL;
 
 dayjs.extend(advancedFormat);
 
@@ -199,7 +202,7 @@ export default function TrialSubscriptionApp() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/billing/subscribe-trial", {
+      const response = await fetch(`${BACKEND_URL}/api/billing/subscribe-trial`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
